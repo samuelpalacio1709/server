@@ -1,27 +1,47 @@
-const publicRoom = 1709
+const publicRoom = "170901"
 function listen(io) {
     const parkourGame = io.of('/parkourgame')
     console.log('Setting...')
 
     parkourGame.on('connection', (socket) => {
         console.log('A user has connected!', socket.id);
-        socket.on('ready', () => {
+        socket.on('ready', (data) => {
+            if (data.publicRoom) {
+                socket.join(publicRoom);
+                socket.roomID = publicRoom
 
-            socket.join(publicRoom);
-            console.log('Player ready', socket.id, ' In room ', publicRoom)
+                console.log('Player ready', socket.id, ' In room ', publicRoom)
+            }
+            else {
+                if (data.customRoom === '') {
+                    socket.join(data.room);
+                    socket.roomID = data.room
+                }
+                else {
+                    socket.join(data.customRoom);
+                    socket.roomID = data.customRoom
+                }
+
+                console.log('Player ready', socket.id, ' In room ', data.room)
+            }
         })
         socket.on('disconnect', (reason) => {
-            socket.to(publicRoom).emit('playerleft', (socket.id))
+
+            socket.to(socket.roomID).emit('playerleft', (socket.id))
             console.log(`Client ${socket.id} disconnected ${reason}`)
-            socket.leave(publicRoom)
+            socket.leave(socket.roomID)
         })
 
         socket.on('playerMove', (playerInfo) => {
-
-            socket.to(publicRoom).emit('playerMove', (playerInfo))
+            socket.to(socket.roomID).emit('playerMove', (playerInfo))
         })
 
     })
+
+    parkourGame.adapter.on("join-room", (room, id) => {
+        console.log(`socket ${id} has joined room ${room}`);
+        parkourGame.to(room).emit("player-joined", { room, id });
+    });
 
 }
 
