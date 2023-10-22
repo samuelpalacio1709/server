@@ -36,6 +36,11 @@ function listen(io) {
             socket.to(socket.roomID).emit('playerMove', (playerInfo))
         })
 
+        socket.on('playerWon', (playerInfo) => {
+            console.log('Player won!' + playerInfo.name)
+            parkourGame.to(socket.roomID).emit("playerWon", playerInfo);
+        })
+
     })
 
     parkourGame.adapter.on("join-room", (room, id) => {
