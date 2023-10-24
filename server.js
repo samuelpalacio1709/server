@@ -1,8 +1,8 @@
 const api = require('./api.js');
 const fs = require('fs')
 const options = {
-    key: fs.readFileSync('../../../../opt/bitnami/apache/conf/servers-sam.space.key'),
-    cert: fs.readFileSync('../../../../opt/bitnami/apache/conf/servers-sam.space.crt'),
+    key: fs.readFileSync('/opt/opt/bitnami/apache/conf/servers-sam.space.key'),
+    cert: fs.readFileSync('/opt/bitnami/apache/conf/servers-sam.space.crt'),
 };
 
 const server = require('https').createServer(options, api);
