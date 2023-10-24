@@ -1,11 +1,6 @@
 const api = require('./api.js');
-const fs = require('fs')
-const options = {
-    key: fs.readFileSync('/opt/bitnami/apache/conf/servers-sam.space.key'),
-    cert: fs.readFileSync('/opt/bitnami/apache/conf/servers-sam.space.crt'),
-};
 
-const server = require('https').createServer(options, api);
+const server = require('https').createServer(api);
 const PORT = 3000;
 const sockets = require('./socket.js')
 
@@ -15,7 +10,7 @@ const io = require('socket.io')(server, {
         origin: '*',
         methods: ['GET', 'POST']
     },
-    transports: ['websocket'], // specify WebSocket as the transport
+    transports: ['websocket'],
 
 });
 
