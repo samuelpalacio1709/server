@@ -1,5 +1,14 @@
+const https = require('https');
 const api = require('./api.js');
-const server = require('http').createServer(api);
+const fs = require('fs');
+
+
+const options = {
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem'),
+};
+
+const server = https.createServer(options, api);
 const PORT = 3000;
 const sockets = require('./socket.js')
 
