@@ -1,7 +1,7 @@
 const api = require('./api.js');
 const fs = require('fs')
 const options = {
-    key: fs.readFileSync('/opt/opt/bitnami/apache/conf/servers-sam.space.key'),
+    key: fs.readFileSync('/opt/bitnami/apache/conf/servers-sam.space.key'),
     cert: fs.readFileSync('/opt/bitnami/apache/conf/servers-sam.space.crt'),
 };
 
