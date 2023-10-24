@@ -1,6 +1,6 @@
 const api = require('./api.js');
 
-const server = require('https').createServer(api);
+const server = require('http').createServer(api);
 const PORT = 3000;
 const sockets = require('./socket.js')
 
